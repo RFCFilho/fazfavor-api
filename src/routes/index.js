@@ -1,3 +1,7 @@
+const authMiddleware = require('../middlewares/auth');// Import do auth de proteção das rotas menos o login
+
+const AuthController = require('../controllers/AuthController'); //Esta variável importa o AuthController(class)
+
 const express = require('express');
 
 const UsuarioController = require('../controllers/UsuarioController');
@@ -5,6 +9,10 @@ const UsuarioController = require('../controllers/UsuarioController');
 const CaronaController = require('../controllers/CaronaController');
 
 const routes = express.Router();
+
+routes.post('/v1/login', AuthController.login); //Esta é a rota para o AuthControler ou Rota do login
+
+routes.use(authMiddleware); //Proteção das rotas
 
 routes.get('/v1/caronas', CaronaController.index);
 
@@ -25,6 +33,7 @@ routes.post('/v1/usuarios', UsuarioController.store);
 routes.put('/v1/usuarios/:id', UsuarioController.update);
 
 routes.delete('/v1/usuarios/:id', UsuarioController.destroy);
+
 
 module.exports = routes;
 //Neste arquivo criaremos as rotas versionadas
